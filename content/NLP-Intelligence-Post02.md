@@ -1,5 +1,5 @@
 ---
-Title: Scraping Reddit Posts to Gauge Investor Sentiments (by group "NLP Intelligence")
+Title: Scraping Reddit Posts to Gauge Investor Sentiments (by Group "NLP Intelligence")
 Date: 2023-03-09
 Category: Web Data Collection
 ---
