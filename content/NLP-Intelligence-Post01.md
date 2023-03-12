@@ -23,15 +23,15 @@ Or something warns that the file does not have permission.
 
 Although the solution the issue is not difficult, it took time to figure it out. We hope this blog can help others who meet the similar problem and save their time.
 
-## Step 1: Drag Chromedriver File to /usr/local/bin
+## Step 1: Drag Chromedriver File to `/usr/local/bin`
 
-If your `usr/local/bin` file is visible in Finder, then congratulations because you just need to do one easy thing: drag Chromedriver file you downloaded into your `usr/local/bin` file. If it is hidden in your computer, then you will have to take following steps. 
+If your `/usr/local/bin` file is visible in Finder, then congratulations because you just need to do one easy thing: drag Chromedriver file you downloaded into your `usr/local/bin` file. If it is hidden in your computer, then you will have to take following steps. 
 
-## Step 2: Find /usr/local/bin in Terminal
+## Step 2: Find `/usr/local/bin` in Terminal
 
 Open your Terminal first, and type `cd /usr/local/bin/` to enter it. 
 
-## Step 3: Move Chromedriver to /usr/local/bin
+## Step 3: Move Chromedriver to `/usr/local/bin`
 
 Type `mv ./chromedriver_mac64/chromedriver /usr/local/bin/` to move Chromedrive from original location to `/usr/local/bin`.
 
