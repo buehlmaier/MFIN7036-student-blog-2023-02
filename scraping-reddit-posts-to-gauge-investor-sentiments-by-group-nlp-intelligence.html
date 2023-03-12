@@ -15,18 +15,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content=", Progress Report, " />
+<meta name="keywords" content=", Web Data Collection, " />
 
-<meta property="og:title" content="How to Install Chromedriver in macOS (by Group &#34;NLP Intelligence&#34;) "/>
-<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/how-to-install-chromedriver-in-macos-by-group-nlp-intelligence.html" />
-<meta property="og:description" content="By Group NLP Intelligence When our group was doing web scraping, we downloaded Chromedriver and tried to use it to control Chrome website. However, the code of running the process we knew fitted for Windows only (as following). import selenium from selenium import webdriver browser = webdriver.Chrome(&#39;path/chromedriver.exc …" />
+<meta property="og:title" content="Scraping Reddit Posts to Gauge Investor Sentiments (by group &#34;NLP Intelligence&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/scraping-reddit-posts-to-gauge-investor-sentiments-by-group-nlp-intelligence.html" />
+<meta property="og:description" content="By Group &#34;NLP Intelligence&#34; Background Objective: Obtain all the Reddit posts relating to Chinese Concept Stocks in the U.S. during the period from June 2020 to June 2022 (to compare the change in sentiment before and after the Chinese company, DiDi’s, delisting event in the U.S.). Conditions …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
 <meta property="og:article:author" content="MFIN7036 Students 2023" />
-<meta property="og:article:published_time" content="2023-03-08T12:00:00+08:00" />
-<meta name="twitter:title" content="How to Install Chromedriver in macOS (by Group &#34;NLP Intelligence&#34;) ">
-<meta name="twitter:description" content="By Group NLP Intelligence When our group was doing web scraping, we downloaded Chromedriver and tried to use it to control Chrome website. However, the code of running the process we knew fitted for Windows only (as following). import selenium from selenium import webdriver browser = webdriver.Chrome(&#39;path/chromedriver.exc …">
+<meta property="og:article:published_time" content="2023-03-09T00:00:00+08:00" />
+<meta name="twitter:title" content="Scraping Reddit Posts to Gauge Investor Sentiments (by group &#34;NLP Intelligence&#34;) ">
+<meta name="twitter:description" content="By Group &#34;NLP Intelligence&#34; Background Objective: Obtain all the Reddit posts relating to Chinese Concept Stocks in the U.S. during the period from June 2020 to June 2022 (to compare the change in sentiment before and after the Chinese company, DiDi’s, delisting event in the U.S.). Conditions …">
 
-        <title>How to Install Chromedriver in macOS (by Group &#34;NLP Intelligence&#34;)  · MFIN7036 Student Blog 2023
+        <title>Scraping Reddit Posts to Gauge Investor Sentiments (by group &#34;NLP Intelligence&#34;)  · MFIN7036 Student Blog 2023
 </title>
         <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2023 - Full Atom Feed" />
 
@@ -68,8 +68,8 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/how-to-install-chromedriver-in-macos-by-group-nlp-intelligence.html">
-                How to Install Chromedriver in macOS (by Group "NLP Intelligence")
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/scraping-reddit-posts-to-gauge-investor-sentiments-by-group-nlp-intelligence.html">
+                Scraping Reddit Posts to Gauge Investor Sentiments (by group "NLP Intelligence")
             </a>
         </h1>
     </header>
@@ -78,33 +78,35 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>By Group NLP Intelligence</p>
-<p>When our group was doing web scraping, we downloaded Chromedriver and tried to use it to control Chrome website. However, the code of running the process we knew fitted for Windows only (as following).</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">selenium</span>
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-
-<span class="n">browser</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">(</span><span class="s1">&#39;path/chromedriver.exc&#39;</span><span class="p">)</span>
-</code></pre></div>
-
-<p>For two members who use OS system, they had to fixed several errors such as the following:
-<img alt="Picture showing P1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post01_P1.jpeg"></p>
-<p>Or something warns that the file does not have permission. </p>
-<p>Although the solution the issue is not difficult, it took time to figure it out. We hope this blog can help others who meet the similar problem and save their time.</p>
-<h2>Step 1: Drag Chromedriver File to <code>/usr/local/bin</code></h2>
-<p>If your <code>/usr/local/bin</code> file is visible in Finder, then congratulations because you just need to do one easy thing: drag Chromedriver file you downloaded into your <code>usr/local/bin</code> file. If it is hidden in your computer, then you will have to take following steps. </p>
-<h2>Step 2: Find <code>/usr/local/bin</code> in Terminal</h2>
-<p>Open your Terminal first, and type <code>cd /usr/local/bin/</code> to enter it. </p>
-<h2>Step 3: Move Chromedriver to <code>/usr/local/bin</code></h2>
-<p>Type <code>mv ./chromedriver_mac64/chromedriver /usr/local/bin/</code> to move Chromedrive from original location to <code>/usr/local/bin</code>.</p>
-<h2>Step 4: Give Your Permission</h2>
-<p>If there is an error in your code showing the file does not have permission to execute, you could go to System Preferences -&gt; Security&amp;Privacy -&gt; General. Then, click the lock to make changes. Under the section of Allow apps downloaded from, you could choose "App Store and identified developers." Sometimes, there is another request there asking you whether to allow the access from chromedriver. You could just tap "Allow" there.</p>
-<p><img alt="Picture showing P2" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post01_P2.jpeg"></p>
-<p>Finally, the code of running Chromedriver for OS system is </p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">selenium</span>
-<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
-
-<span class="n">browser</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">(</span><span class="s1">&#39;/usr/local/bin/chromedriver&#39;</span><span class="p">)</span>
-</code></pre></div>
+            <p>By Group "NLP Intelligence"</p>
+<h2>Background</h2>
+<p><strong>Objective</strong>: Obtain all the Reddit posts relating to Chinese Concept Stocks in the U.S. during the period from June 2020 to June 2022 (to compare the change in sentiment before and after the Chinese company, DiDi’s, delisting event in the U.S.).</p>
+<p><strong>Conditions</strong>: </p>
+<p>Each post must:</p>
+<ol>
+<li>Contain at least one of the keywords (stock names, stock tickers, relevant words)</li>
+<li>Posted within the period 1/6/2020 – 30/6/2022</li>
+</ol>
+<h2>Method 1: Web page scraping using Selenium</h2>
+<p>One method to scrape the data is to use the Selenium package with Webdriver. This method makes use of the HTML of the web page and extracts the content using the HTML code or path that corresponds to it. </p>
+<p>First, we need to define the website URL for where the content is located. Then, we use the corresponding XPATHs to locate the piece of content we want to extract. This code gets us exactly what we see on the webpage: </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG1.png"></p>
+<p>The “Date” we extracted above is the difference between the posted date and current date, as that is what is shown on the web page for that post. What we want is the exact date for when the post was posted. If we hover the mouse over the time shown on the post, we can see the exact date of when the post was posted in a pop-up text box: </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG2.png"> </p>
+<p>Inside the HTML of the webpage, there is no Selenium locator for the datetime value. The datetime is identified with data-testid, but Selenium does not support the data-testid method. </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG3.png"></p>
+<p>Hence, we looked for another way to extract the data. </p>
+<h2>Method 2: Using the Reddit API</h2>
+<p>Due to the datetime issue, we explored another method to scrape the posts and found that Reddit allow users to create applications that give users access to its API. </p>
+<p>To get access to the Reddit API, we had to create an application in the App Preferences of the Reddit website. After successfully creating a new application, we were provided with a Client ID and Client Secret code that allows us the access to the Reddit API. </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG4.png"></p>
+<p>With the access keys to the API, we installed PRAW (Python Reddit API Wrapper), a python package that allows for easy use of the Reddit API. Using the PRAW package, we were able to collect all the posts we needed to a csv file for text processing. </p>
+<h2>Coding Troubleshoot</h2>
+<p>We identified 200+ keywords that need to be search on Reddit for relevant posts. The keywords are stored in a list, like the list ‘x’ for the code example shown below. Next, we wanted to create a loop, where each keyword will go into the search all subreddit function, then print the headline and date of the posts found. Hence, we proceeded to writing a while loop outside the for loop that prints the result of each post. The purpose of the while loop is to loop through the keywords, or list ‘x’ in the code example shown below. Essentially, the function of all.search(keyword), the keyword argument will be the items in list ‘x’. The code is shown below: </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG5.png"></p>
+<p>The output of this code showed that the while loop did not run through each of the items in list ‘x’ and output 5 posts from each keyword as we had expected. Instead, it only output the 5 posts from the first item of list ‘x’. </p>
+<p>After some work trying to debug, we realized that our outer loop was the issue. Once we changed the while loop to another for loop, we were able to get the correct output. The correct code is shown below: </p>
+<p><img alt="Picture Code 1" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post02_IMG6.png"></p>
 
 
              
@@ -123,9 +125,9 @@
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2023-03-08T12:00:00+08:00">Wed 08 March 2023</time>
+            <time itemprop="dateCreated" datetime="2023-03-09T00:00:00+08:00">Thu 09 March 2023</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#progress-report-ref">Progress Report</a>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#web-data-collection-ref">Web Data Collection</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2023-02" title="" target="_blank" rel="nofollow noopener noreferrer">
