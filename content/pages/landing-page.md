@@ -22,7 +22,11 @@ view all blog posts, click on "all posts" below.**
 
 Names of student groups (in order of sign-up):
 
-  * 
+  * Alpha Miner
+  * NLP Intelligence
+  * Citadel2
+  * Group Four
+  * N.5
 
 The source code of this blog is available on
 [GitHub](https://github.com/buehlmaier/MFIN7036-student-blog-2023-02).
