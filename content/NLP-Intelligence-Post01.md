@@ -1,5 +1,5 @@
 ---
-Title: How to Install Chromedriver in MacOS (by Group "NLP Intelligence")
+Title: How to Install Chromedriver in macOS (by Group "NLP Intelligence")
 Date: 2023-03-08 12:00
 Category: Progress Report
 ---
@@ -25,15 +25,15 @@ Although the solution the issue is not difficult, it took time to figure it out.
 
 ## Step 1: Drag Chromedriver File to /usr/local/bin
 
-If your usr/local/bin file is visible in Finder, then congratulations because you just need to do one easy thing: drag Chromedriver file you downloaded into your usr/local/bin file. If it is hidden in your computer, then you will have to take following steps. 
+If your `usr/local/bin` file is visible in Finder, then congratulations because you just need to do one easy thing: drag Chromedriver file you downloaded into your `usr/local/bin` file. If it is hidden in your computer, then you will have to take following steps. 
 
 ## Step 2: Find /usr/local/bin in Terminal
 
-Open your Terminal first, and tap "cd /usr/local/bin/" to enter it. 
+Open your Terminal first, and type `cd /usr/local/bin/` to enter it. 
 
 ## Step 3: Move Chromedriver to /usr/local/bin
 
-Tap "mv ./chromedriver_mac64/chromedriver/usr/local/bin/" to move Chromedrive from original location to /usr/local/bin.
+Type `mv ./chromedriver_mac64/chromedriver /usr/local/bin/` to move Chromedrive from original location to `/usr/local/bin`.
 
 ## Step 4: Give Your Permission
 
