@@ -4,7 +4,7 @@ Date: 2023-03-15 01:12
 Category: Progress Report
 ---
 
-By Group 5 "N.5". We are N.5, aiming to discover investment opportunities hiding behind market factors.
+By Group "N.5". We are N.5, aiming to discover investment opportunities hiding behind market factors.
 
 ## General thought of Project
 
