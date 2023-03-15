@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2023" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", Linear Regression, " />
+
+<meta property="og:title" content="Data processing and Linear Regression in Python (by Group &#34;NLP Intelligence&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/data-processing-and-linear-regression-in-python-by-group-nlp-intelligence.html" />
+<meta property="og:description" content="By Group &#34;NLP Intelligence&#34; We have collected text data and transformed text into numbers through the process posted in the previous blogs. To investigate the correlation between investors’ sentiment and price return, we try to merge text and financial data frames, run the regression model, and print the regression results …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
+<meta property="og:article:author" content="MFIN7036 Students 2023" />
+<meta property="og:article:published_time" content="2023-03-15T20:27:00+08:00" />
+<meta name="twitter:title" content="Data processing and Linear Regression in Python (by Group &#34;NLP Intelligence&#34;) ">
+<meta name="twitter:description" content="By Group &#34;NLP Intelligence&#34; We have collected text data and transformed text into numbers through the process posted in the previous blogs. To investigate the correlation between investors’ sentiment and price return, we try to merge text and financial data frames, run the regression model, and print the regression results …">
+
+        <title>Data processing and Linear Regression in Python (by Group &#34;NLP Intelligence&#34;)  · MFIN7036 Student Blog 2023
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2023 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/"><span class=site-name>MFIN7036 Student Blog 2023</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2023-02
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/data-processing-and-linear-regression-in-python-by-group-nlp-intelligence.html">
+                Data processing and Linear Regression in Python (by Group "NLP Intelligence")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "NLP Intelligence"</p>
+<p>We have collected text data and transformed text into numbers through the process posted in the previous blogs. To investigate the correlation between investors’ sentiment and price return, we try to merge text and financial data frames, run the regression model, and print the regression results. Hence, in this blog, we would like to show you the details about data merging, data cleaning, and regression processing.</p>
+<h2>Data merging</h2>
+<p>Before we merge the data frames, we have to get the daily average sentiment index. The reason is that there may be more than one post each day, and we have collected separate sentiment indexes for each post.</p>
+<p>We used the following code to get the daily average sentiment index and remove the duplicates:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#get daily average SentimentScores</span>
+<span class="n">New_SentimentScores</span> <span class="o">=</span> <span class="n">SentimentScores</span><span class="p">[[</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span><span class="s1">&#39;compound&#39;</span><span class="p">]]</span>
+<span class="n">New_SentimentScores</span><span class="p">[</span><span class="s1">&#39;avg_compound&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">New_SentimentScores</span><span class="p">[</span><span class="s1">&#39;compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">New_SentimentScores</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">transform</span> <span class="p">(</span><span class="s1">&#39;mean&#39;</span><span class="p">)</span>
+<span class="k">del</span> <span class="n">New_SentimentScores</span><span class="p">[</span><span class="s1">&#39;compound&#39;</span><span class="p">]</span>
+
+<span class="n">New_SentimentScores</span> <span class="o">=</span> <span class="n">New_SentimentScores</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">New_SentimentScores</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div>
+
+<p>After getting the daily average sentiment index, we could merge the text and financial data frames based on the column “date”.</p>
+<div class="highlight"><pre><span></span><code><span class="n">Regression_Data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">StockReturn</span><span class="p">,</span> <span class="n">New_SentimentScores</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
+<span class="c1"># pd: import pandas as pd</span>
+<span class="c1"># how: put dataframe StockReturn on the left</span>
+<span class="c1"># on: based on the same date</span>
+</code></pre></div>
+
+<h2>Data winsorization, standardization, normalization</h2>
+<p>Because we have data from deep learning, we try to standardize these data to improve their quality. There are a few outliers in the data, so we winsorized data before the standardization. If we do not conduct the winsorization, the outlier will affect the standardization, and we may not get a satisfactory result from standardization.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Winsorize</span>
+<span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;wins_compound&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;compound&#39;</span><span class="p">]</span><span class="o">.</span>\
+    <span class="n">clip</span><span class="p">(</span>
+        <span class="n">upper</span><span class="o">=</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.99</span><span class="p">),</span>\
+        <span class="n">lower</span><span class="o">=</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="mf">0.01</span><span class="p">))</span>
+
+<span class="c1"># Standardize</span>
+<span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;wins_compound&#39;</span><span class="p">])</span>
+
+<span class="c1"># check the mean and std after processing</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Then, we can take a look at the processed result by the following codes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Because we want to try our best to unify the work of each part so as to cooperate with group members better. After the standardization, we re-normalized the data to an interval from -1 to 1 by the following codes:</p>
+<div class="highlight"><pre><span></span><code><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;nor_compound&#39;</span><span class="p">]</span> <span class="o">=</span> \
+    <span class="p">(</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span> <span class="o">-</span> \
+     <span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> \
+    <span class="p">(</span><span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> \
+     <span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;std_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">SentimentScores</span><span class="p">[</span><span class="s1">&#39;nor_compound&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<h2>Data cleaning: remove null values</h2>
+<p>When acquiring data, some data may not be available, or the data itself may not exist, resulting in null values. If we don't remove the null values, we will get the error below.</p>
+<p><img alt="Picture1 showing" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post04_pic1.png"></p>
+<p>We can use the following code to remove null values:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">Regression</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span> 
+<span class="n">Regression</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s1">&#39;any&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+</code></pre></div>
+
+<h2>Generate new variables</h2>
+<p>Based on our regression models, we would like to generate two variables first. The first one is a dummy variable called “After_DiDi”. It represents whether the date of each data is after DiDi’s delisting or not. If it’s after DiDi’s case, it will be one; otherwise, it will be zero.</p>
+<p>We try to use this variable to explore the potential effect of DiDi’s delisting on the other U.S.-listed China Concept Stocks and to fit the market condition better.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#add a dummy variable</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="s1">&#39;2021-07-02&#39;</span>
+<span class="n">After_DiDi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">Regression_Data</span><span class="o">.</span><span class="n">date</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">Regression_Data</span><span class="p">[</span><span class="s1">&#39;After_DiDi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">After_DiDi</span>
+<span class="k">del</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">After_DiDi</span>
+</code></pre></div>
+
+<p>Another variable we generated is “sentiment_tag” which is a categorical variable. We would like to transform the sentiment index (continuous floating numbers from -1 to 1) to a categorical variable (from 'Strongly negative' to 'Strongly positive') and encode the labels (from 1 to 5).</p>
+<p>We have tried the regression model with sentiment index and got a significant result. But we convert the variable to improve our regression model because the coefficient of a categorical variable with label encoding is much more interpretive for readers.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># change the continuous floating number to a categorical variable</span>
+<span class="k">def</span> <span class="nf">judge_type</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;Strongly negative&#39;</span>
+    <span class="k">elif</span> <span class="o">-</span><span class="mf">0.6</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;Negative&#39;</span>
+    <span class="k">elif</span> <span class="o">-</span><span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;Neutral&#39;</span>
+    <span class="k">elif</span> <span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;Positive&#39;</span>
+    <span class="k">elif</span> <span class="mf">0.6</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;Strongly positive&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">a</span>
+<span class="n">Regression_Data</span><span class="p">[</span><span class="s1">&#39;sentiment_label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Regression_Data</span><span class="p">[</span><span class="s1">&#39;avg_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">judge_type</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+<span class="c1"># Label Encoding</span>
+<span class="k">def</span> <span class="nf">judge_tag</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.6</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">elif</span> <span class="o">-</span><span class="mf">0.6</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="mi">2</span>
+    <span class="k">elif</span> <span class="o">-</span><span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.2</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="mi">3</span>
+    <span class="k">elif</span> <span class="mf">0.2</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.6</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="mi">4</span>
+    <span class="k">elif</span> <span class="mf">0.6</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="mi">5</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">a</span>
+<span class="n">Regression_Data</span><span class="p">[</span><span class="s1">&#39;sentiment_tag&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Regression_Data</span><span class="p">[</span><span class="s1">&#39;avg_compound&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">judge_tag</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</code></pre></div>
+
+<p>In addition, our model includes some interaction terms. Adding interaction terms can be implemented very simply with the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Add interaction terms</span>
+<span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;sentiment_tag_After_DiDi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;sentiment_tag&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;After_DiDi&#39;</span><span class="p">]</span> 
+<span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;S&amp;P 500_After_DiDi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;S&amp;P 500&#39;</span><span class="p">]</span><span class="o">*</span><span class="n">Regression</span><span class="p">[</span><span class="s1">&#39;After_DiDi&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Finally, we got the data that could be put into the regression model.</p>
+<h2>How to implement linear regression in Python</h2>
+<p>Usually, we choose STATA, R, or SPSS to implement linear regression. But in this project, we tried how to implement linear regression in Python.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="n">Regression_1</span> <span class="o">=</span> <span class="n">Regression</span><span class="p">[[</span><span class="s1">&#39;Price Return&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_tag’, &#39;</span><span class="n">S</span><span class="o">&amp;</span><span class="n">P</span> <span class="mi">500</span><span class="s1">&#39;]] # regression dataset</span>
+
+<span class="c1"># dependent variable</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">Regression_1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+
+<span class="c1"># explanatory and control variables</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Regression_1</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">add_constant</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># Add intercept term</span>
+
+<span class="c1"># linear regression</span>
+<span class="n">model_1_1</span> <span class="o">=</span> <span class="n">sm</span><span class="o">.</span><span class="n">OLS</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="c1"># print</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model_1_1</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
+</code></pre></div>
+
+<h2>Presentation of regression results</h2>
+<p>The result printed by Python is the following figure. It can only print each regression result separately. And there is no asterisk shown, so we can only use the t-value and p-value to identify the significance.</p>
+<p><img alt="Picture2 showing" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post04_pic2.png"></p>
+<p>Therefore, we find another method to combine our regression results on the same page and show the asterisks to present the significance more intuitively. One of our new presentations of regression results is the following figure.</p>
+<p><img alt="Picture3 showing" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/NLP-Intelligence-Post04_pic3.png"></p>
+<p>We can use the following code to implement the presentation:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">statsmodels.iolib.summary2</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># only Rule-based method</span>
+<span class="n">whole_result</span> <span class="o">=</span> \
+    <span class="n">summary_col</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">model_1_1</span><span class="p">,</span> <span class="n">model_1_2</span><span class="p">,</span> <span class="n">model_1_3</span><span class="p">,</span> <span class="n">model_1_4</span><span class="p">,</span> <span class="n">model_1_5</span><span class="p">],</span>
+        <span class="n">stars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">model_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Rule-based method&#39;</span><span class="p">,</span> <span class="s1">&#39;Rule-based method&#39;</span><span class="p">,</span> <span class="s1">&#39;Rule-based method&#39;</span><span class="p">,</span> <span class="s1">&#39;Rule-based method&#39;</span><span class="p">,</span> <span class="s1">&#39;Rule-based method&#39;</span><span class="p">],</span>
+        <span class="n">info_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{0:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">nobs</span><span class="p">)),</span> <span class="s1">&#39;Adjusted R2&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="p">)},</span>
+        <span class="n">regressor_order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_tag&#39;</span><span class="p">,</span> <span class="s1">&#39;S&amp;P 500&#39;</span><span class="p">,</span> <span class="s1">&#39;After_DiDi&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_tag_After_DiDi&#39;</span><span class="p">,</span> <span class="s1">&#39;S&amp;P 500_After_DiDi&#39;</span><span class="p">])</span>
+<span class="n">whole_result</span>
+
+<span class="c1"># only Deep Learning method</span>
+<span class="n">whole_result</span> <span class="o">=</span> \
+    <span class="n">summary_col</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">model_2_1</span><span class="p">,</span> <span class="n">model_2_2</span><span class="p">,</span> <span class="n">model_2_3</span><span class="p">,</span> <span class="n">model_2_4</span><span class="p">,</span> <span class="n">model_2_5</span><span class="p">],</span>
+        <span class="n">stars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%0.4f</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">model_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Deep Learning Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Deep Learning Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Deep Learning Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Deep Learning Method&#39;</span><span class="p">,</span> <span class="s1">&#39;Deep Learning Method&#39;</span><span class="p">],</span>
+        <span class="n">info_dict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;N&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{0:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">nobs</span><span class="p">)),</span> <span class="s1">&#39;Adjusted R2&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">rsquared_adj</span><span class="p">)},</span>
+        <span class="n">regressor_order</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Intercept&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_tag&#39;</span><span class="p">,</span> <span class="s1">&#39;S&amp;P 500&#39;</span><span class="p">,</span> <span class="s1">&#39;After_DiDi&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_tag_After_DiDi&#39;</span><span class="p">,</span> <span class="s1">&#39;S&amp;P 500_After_DiDi&#39;</span><span class="p">])</span>
+<span class="n">whole_result</span>
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2023-03-15T20:27:00+08:00">Wed 15 March 2023</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#linear-regression-ref">Linear Regression</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2023-02" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
