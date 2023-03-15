@@ -23,7 +23,7 @@ for i in range(len(search_text)):
     page=1
     try:
         while True:
-            url=r'https://www.zacks.com/stock/research/{}/all-news?page={}'.format(search_text[i], page)
+            url = r'https://www.zacks.com/stock/research/{}/all-news?page={}'.format(search_text[i], page)
             browser.get(url)
             for j in range(1,26):
                 try:

@@ -4,7 +4,7 @@ Date: 2023-03-08 01:12
 Category: Progress Report
 ---
 
-Group Citadel2
+By Group Citadel2
 
 ## Introduction
 In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse the data such that we can generate actionable insight with economic value. In this blog, we aim to shed some light on our process, as well as some of the challenges we faced.  
