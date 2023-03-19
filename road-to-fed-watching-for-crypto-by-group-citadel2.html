@@ -19,12 +19,12 @@
 
 <meta property="og:title" content="Road to Fed-Watching for Crypto (by Group &#34;Citadel2&#34;) "/>
 <meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/road-to-fed-watching-for-crypto-by-group-citadel2.html" />
-<meta property="og:description" content="By Group Citadel2 Introduction In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse …" />
+<meta property="og:description" content="By Group &#34;Citadel2&#34; Introduction In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
 <meta property="og:article:author" content="MFIN7036 Students 2023" />
-<meta property="og:article:published_time" content="2023-03-08T01:12:00+08:00" />
+<meta property="og:article:published_time" content="2023-03-08T13:15:00+08:00" />
 <meta name="twitter:title" content="Road to Fed-Watching for Crypto (by Group &#34;Citadel2&#34;) ">
-<meta name="twitter:description" content="By Group Citadel2 Introduction In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse …">
+<meta name="twitter:description" content="By Group &#34;Citadel2&#34; Introduction In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse …">
 
         <title>Road to Fed-Watching for Crypto (by Group &#34;Citadel2&#34;)  · MFIN7036 Student Blog 2023
 </title>
@@ -78,21 +78,25 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>By Group Citadel2</p>
+            <p>By Group "Citadel2"</p>
 <h2>Introduction</h2>
 <p>In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse the data such that we can generate actionable insight with economic value. In this blog, we aim to shed some light on our process, as well as some of the challenges we faced.  </p>
 <h2>Data Collection</h2>
 <p>After each speech, their transcripts are uploaded to the <a href="https://www.federalreserve.gov/newsevents/speeches.htm">Federal Reserve website</a>. 
-This allows us to use the following script to scrape the website and download the speeches: </p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">scrap_FR_speech</span><span class="p">():</span> 
-    <span class="c1"># scrap multiple FR speech text data </span>
+This allows us to use the following script to scrape the website and download the speeches: <br></p>
+<p><img alt="Loss over Epoch" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post01_FR speech website.png"></p>
+<p>Then we define a function to scrape these speech texts, mainly using Chrome webdriver from Selenium.
+To scrape all speeches and store into one dataframe, we first get URLs of these speeches by using find_element function in Selenium from the whole page and then locate the "Next" button to turn to next page. We used newspaper3k to get speech content and BeautifulSoup to get article time.</p>
+<p>Here's an example using DEV tool to find the URL's XPATH:</p>
+<p><img alt="Find XPath of URL" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post01_Xpath.png"></p>
+<p>The following is our scrape function:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">scrape_FR_speech</span><span class="p">():</span> 
+    <span class="c1"># scrape multiple FR speech text data </span>
     <span class="n">driver</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Chrome</span><span class="p">()</span> 
     <span class="c1"># Navigate to a webpage with pagination links </span>
     <span class="n">driver</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://www.federalreserve.gov/newsevents/speeches.htm&quot;</span><span class="p">)</span> 
     <span class="n">url</span><span class="o">=</span><span class="p">[]</span> 
-    <span class="n">key_words</span> <span class="o">=</span> <span class="p">[]</span> 
     <span class="n">FR_speech</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>  
-
     <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">24</span><span class="p">):</span> 
         <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">24</span><span class="p">:</span> 
             <span class="n">passage_num</span> <span class="o">=</span> <span class="mi">13</span> 
@@ -100,15 +104,13 @@ This allows us to use the following script to scrape the website and download th
             <span class="n">passage_num</span> <span class="o">=</span> <span class="mi">21</span>    
 
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">passage_num</span><span class="p">):</span> 
-            <span class="n">url</span><span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span><span class="s1">&#39;//*[@id=&quot;article&quot;]/div[1]/div[&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;]/div[2]/p[1]/em/a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span> 
+        <span class="n">XPath</span><span class="o">=</span><span class="s1">&#39;//*[@id=&quot;article&quot;]/div[1]/div[&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;]/div[2]/p[1]/em/a&#39;</span>
+            <span class="n">url</span><span class="o">=</span> <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="n">XPath</span><span class="p">)</span><span class="o">.</span><span class="n">get_attribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">)</span> 
 
-            <span class="c1"># article text &amp; keywords </span>
             <span class="n">article</span> <span class="o">=</span> <span class="n">Article</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> 
             <span class="n">article</span><span class="o">.</span><span class="n">download</span><span class="p">()</span> 
             <span class="n">article</span><span class="o">.</span><span class="n">parse</span><span class="p">()</span> 
             <span class="n">t</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">text</span> 
-            <span class="c1"># article.nlp() </span>
-            <span class="c1"># k = article.keywords </span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">t</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]</span> <span class="p">)</span> 
             <span class="n">df</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span> 
 
@@ -123,23 +125,15 @@ This allows us to use the following script to scrape the website and download th
             <span class="n">df</span><span class="p">[</span><span class="s1">&#39;article_time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">article_time</span> 
             <span class="n">FR_speech</span><span class="o">=</span> <span class="n">FR_speech</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
 
-            <span class="c1"># key_words.append(k) </span>
         <span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">LINK_TEXT</span><span class="p">,</span><span class="s2">&quot;Next&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span> 
 
     <span class="k">return</span> <span class="n">FR_speech</span>         
-
-<span class="n">FR_speech</span> <span class="o">=</span> <span class="n">scrap_FR_speech</span><span class="p">()</span> 
-<span class="n">FR_speech</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s1">&#39;FR_speech.parquet&#39;</span><span class="p">)</span> 
 </code></pre></div>
 
 <h2>Data Processing</h2>
 <p>For our purposes, speeches by Federal Reserve officials are a great source of text data, as they contain no gibberish, and the formal language allows for easy data augmentation – thus minimal cleaning is needed (compared to, for example, social media posts, which often contain abbreviations, emojis, slangs and/or colloquial language). However, we still need to inspect and clean the data – in case the downloaded text differs from that of the actual speech due to unexpected issues during web-scraping. </p>
-<p>We first used the following code to drop references in the speech text. </p>
-<div class="highlight"><pre><span></span><code><span class="n">FR_speech</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="s1">&#39;/Users/lancelotpan/Desktop/Module 4/NLP/Mfin 7036 group project/FR_speech.parquet&#39;</span><span class="p">)</span> 
-<span class="n">FR_speech</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
-<span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span> 
-
-<span class="c1"># Drop reference in speech text </span>
+<p>We first used the following code to drop references in the speech text:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Drop reference in speech text </span>
 <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes&#39;</span><span class="p">]):</span> 
    <span class="n">lst</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> 
    <span class="n">item</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span> 
@@ -157,39 +151,33 @@ This allows us to use the following script to scrape the website and download th
    <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">][</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span> 
 </code></pre></div>
 
-<p>We then applied a custom function to the text, which removes useless characters, and converts all letters to lowercase. </p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Drop useless characters and convert all words to lowercase </span>
-<span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="n">text</span><span class="p">):</span> 
+<p>We then removed useless characters, and converted all letters to lowercase:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="n">text</span><span class="p">):</span> 
 
     <span class="c1"># Remove links </span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;http://\S+|https://\S+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> 
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;http[s]?://\S+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> 
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;http\S+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> 
-
-    <span class="c1"># remove the reference numbers  </span>
+   <span class="c1"># remove the reference numbers  </span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.\d+&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>  
-
-    <span class="c1"># Remove multiple space characters </span>
+   <span class="c1"># Remove multiple space characters </span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> 
-
-    <span class="c1"># Convert to lowercase </span>
+   <span class="c1"># Convert to lowercase </span>
     <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> 
-
-    <span class="k">return</span> <span class="n">text</span> 
-
-<span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pre_process</span><span class="p">)</span> 
+   <span class="k">return</span> <span class="n">text</span> 
 </code></pre></div>
 
-<p>Now we can summarize the article, by removing stop words, then calculating the relative frequencies of each word, and finally rank each sentence by its relative importance.</p>
+<p>Now we can summarize the article, by removing stop words, then calculating the relative frequencies of each word, and finally rank each sentence by its relative importance:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Summarized the article (remove insignificant sentences) </span>
+
 <span class="k">def</span> <span class="nf">sum_article</span><span class="p">(</span><span class="n">text</span><span class="p">):</span> 
     <span class="kn">from</span> <span class="nn">spacy.lang.en.stop_words</span> <span class="kn">import</span> <span class="n">STOP_WORDS</span>  
     <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">CountVectorizer</span>  
     <span class="kn">import</span> <span class="nn">en_core_web_sm</span> 
     <span class="n">nlp</span> <span class="o">=</span> <span class="n">en_core_web_sm</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> 
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> 
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 
-    <span class="c1"># remove create a dictionary of words and their respective frequencies  </span>
+   <span class="c1"># remove create a dictionary of words and their respective frequencies  </span>
     <span class="n">corpus</span> <span class="o">=</span> <span class="p">[</span><span class="n">sent</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">sents</span> <span class="p">]</span> 
     <span class="n">cv</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">STOP_WORDS</span><span class="p">))</span>    
     <span class="n">cv_fit</span><span class="o">=</span><span class="n">cv</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span>     
@@ -215,7 +203,6 @@ This allows us to use the following script to scrape the website and download th
                     <span class="n">sentence_rank</span><span class="p">[</span><span class="n">sent</span><span class="p">]</span><span class="o">+=</span><span class="n">word_frequency</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> 
                 <span class="k">else</span><span class="p">:</span> 
                     <span class="n">sentence_rank</span><span class="p">[</span><span class="n">sent</span><span class="p">]</span><span class="o">=</span><span class="n">word_frequency</span><span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span> 
-
     <span class="n">top_sentences</span><span class="o">=</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">sentence_rank</span><span class="o">.</span><span class="n">values</span><span class="p">())[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
     <span class="n">top_sent</span><span class="o">=</span><span class="n">top_sentences</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span> 
 
@@ -230,14 +217,6 @@ This allows us to use the following script to scrape the website and download th
         <span class="k">else</span><span class="p">:</span> 
             <span class="k">continue</span> 
     <span class="k">return</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span> 
-
-<span class="n">summary0</span> <span class="o">=</span> <span class="n">sum_article</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> 
-
-<span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;summarized_article&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span> 
-
-<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;minutes_cleaned&#39;</span><span class="p">]):</span> 
-    <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;summarized_article&#39;</span><span class="p">][</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum_article</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> 
-    <span class="nb">print</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;summarized_article&#39;</span><span class="p">][</span><span class="n">count</span><span class="p">])</span>      
 </code></pre></div>
 
 <p>Next, we split the passage into sentences using the NLTK sentence tokenizer, then finally removing outliers and errors before putting the data through the natural language processing model.</p>
@@ -248,27 +227,17 @@ This allows us to use the following script to scrape the website and download th
 <span class="c1"># Explode sentences into separate rows, keeping other data </span>
 <span class="n">FR_speech</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="o">.</span><span class="n">explode</span><span class="p">(</span><span class="s1">&#39;Sentences&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
 
-<span class="nb">print</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences&#39;</span><span class="p">])</span> 
-
 <span class="c1"># Drop the outliers </span>
 
 <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">()</span> 
 <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences&#39;</span><span class="p">]):</span> 
     <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_length&#39;</span><span class="p">][</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> 
-<span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="p">[</span> <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_length&#39;</span><span class="p">]</span><span class="o">&gt;=</span> <span class="mi">63</span> <span class="p">][</span><span class="s1">&#39;Sentences&#39;</span><span class="p">]</span> 
+<span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="p">[</span> <span class="n">FR_speech</span><span class="p">[</span><span class="s1">&#39;Sentences_length&#39;</span><span class="p">]</span><span class="o">&gt;=</span> <span class="nb">len</span> <span class="p">][</span><span class="s1">&#39;Sentences&#39;</span><span class="p">]</span> 
 <span class="n">FR_speech</span> <span class="o">=</span> <span class="n">FR_speech</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span> 
 </code></pre></div>
 
-<p>As we are investigating the effects of Fed speeches on cryptocurrency prices, it is imperative to obtain accurate price data. For this project, we use the Yahoo! Finance API.  For the purposes of this project, the data provided by Yahoo! Finance has multiple benefits – there is complete OHLC price data at daily intervals, the data is easy to obtain via Python (with a specific purpose-built package), and it is available for public use at no cost. Here, we request for USD denominated Bitcoin prices (‘BTC-USD’)  between Sep 2014 and Feb 2023 from the Yahoo! Finance API via the yfinance package:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="nn">yf</span>
-
-<span class="c1"># get Bitcoin trading data from Yahoo Finance</span>
-<span class="n">btc</span> <span class="o">=</span> <span class="n">yf</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="s1">&#39;BTC-USD&#39;</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;2014-09-17&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;2023-02-28&#39;</span><span class="p">)</span>
-</code></pre></div>
-
+<p>Here's top 20 bigrams from cleaned speech text: <br></p>
+<p><img alt="Top 20 bigrams" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post01_Top 20 bigrams.png"></p>
 <h2>Model Evaluation</h2>
 <p>For the model evaluation part, our initial idea was to directly link sentiment to price direction, but it would not be precise enough since other factors could affect it, so a two-model approach was selected in our project. The first step is to establish a model to determine the sentiment score, then use sentiment score and other factors to determine bitcoin price fluctuations. We changed our approach several times for the first model. </p>
 <p>We first considered supervised machine learning with manually labelled data, but it is costly and time-consuming. Then, we regarded VADER as our second choice since VADER is a relatively simple and straightforward method with a lower computation cost. Additionally, unlike machine learning which requires the same format of the input, it does not require a fixed sentence length. Accordingly, we did a test to determine whether this method is appropriate or not. We imported a training set with an assumed 100% accuracy, then we converted positive sentiments to 1, negative to -1, and 0 otherwise. </p>
@@ -307,12 +276,14 @@ This allows us to use the following script to scrape the website and download th
         <span class="k">return</span> <span class="mi">0</span>
 </code></pre></div>
 
+<p>Here's the result using VADER: <br></p>
+<p><img alt="Vader_result" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post01_Vader_result.png"></p>
 <p>Unfortunately, the accuracy rate was only 53%, which is too low. </p>
 <p>In this case, we believe that the low accuracy rate can be explained by the nature of the VADER model. VADER is a rule-based sentiment analysis model without explicitly coding it. For example, the score would be '+1' if the sentence has hawkish keywords and more positive than negative terms, and '-1' if the sentence conveys a dovish sentiment. This method can also be described as lexicon-based, where a sentiment score heavily relies on the polarity and intensity of the sentiment of a single word. All of this means that the VADER model ignores the contextual information as the BoW and TF-IDF. </p>
 <p>We also considered unsupervised machine learning. However, its input data is not labelled by people in advance, instead the testing data is grouped automatically. Although no training set is required for unsupervised machine learning, the automated grouping may not be desirable as there is no particular indication. With a large number of specialised words in Federal Reserve speeches, it is impossible to tell the computer how to distinguish between these sentiments. </p>
 <p>Therefore, after taking into account the pros and cons of each method, we decided to use supervised machine learning with different training sets (FiQA and FinancialPhraseBank). While this method has one limitation - in that these training sets are not entirely based on bitcoin, we can improve the accuracy by tuning and refining some parameters by ourselves, such as dropout, leaning rate, and weight decay. </p>
 <h2>Next Steps</h2>
-<p>After collecting and processing the Fed speech text data and the Bitcoin price data, as well as evaluating different methods for sentiment analysis, our next steps would be to put everything together and find insights on how Fed speeches factor into cryptocurrency returns.</p>
+<p>After collecting and processing the Fed speech text data and the Bitcoin price data, as well as evaluating different methods for sentiment analysis, our next steps would be to put everything together and find insights on how Fed speeches factor into cryptocurrency returns. See more details in our <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/predict-fr-speechs-sentiment-score-using-rnn-by-group-citadel2.html">next blog</a>.</p>
 
 
              
@@ -331,7 +302,7 @@ This allows us to use the following script to scrape the website and download th
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2023-03-08T01:12:00+08:00">Wed 08 March 2023</time>
+            <time itemprop="dateCreated" datetime="2023-03-08T13:15:00+08:00">Wed 08 March 2023</time>
             <h4>Category</h4>
             <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#progress-report-ref">Progress Report</a>
 <h4>Contact</h4>
