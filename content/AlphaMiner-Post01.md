@@ -6,10 +6,10 @@ Category: Progress Report
 
 By Group "Alpha Miner"
 
-This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. 
+This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. All content regarding webscraping is only for academic demonstration purposes, and we respect the download policies.
 
 
-## 1. Selection of News Websites for Webscrapping
+## 1. Selection of News Websites for Webscraping
 
 There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of them are suitable for web-scraping. So we try to investigate each website to find the best one.
 
@@ -36,14 +36,14 @@ Barron serves as a great resource for us to use selenium to download data. The u
 
 ![Picture showing Barron's website]({static}/images/AlphaMiner-Post01_Barron's.png)
 
-So we choose Bezinga and Barron as our data sources of financial news, and we are equipped with the necessary websracping skills to deal with both static and dynamic websites based on our the learnig of 9.2 Web Scraping. 
+So we choose Bezinga and Barron as our data sources of financial news, and we are equipped with the necessary webscraping skills to deal with both static and dynamic websites based on our the learnig of 9.2 Web Scraping. 
 
 
 ## 2. Data Collection from selected news websites
 
 ### 1）Benzinga
 
-Collecting data from Benzinga is relatively straightforward, as the they published an [official document](https://docs.benzinga.io/benzinga/newsfeed-v2.html) with detailed instructions, and package of **request** is sufficiently powerful to webscrap it. We just need to change the ticker to get relevant data. Then we collect the news date meet the date requirements.
+Collecting data from Benzinga is relatively straightforward, as the they published an [official document](https://docs.benzinga.io/benzinga/newsfeed-v2.html) with detailed instructions, and package of **request** is sufficiently powerful to webscrape it. We just need to change the ticker to get relevant data. Then we collect the news date meet the date requirements.
 
 ![Picture showing Benzinga api document]({static}/images/AlphaMiner-Post01_Benzinga_api_document.png)
 
@@ -99,9 +99,9 @@ We first send the precificied stock ticker to the website and click on the searc
             'BarronsTheme--search-submit--3CYhQXSw')
         Search.click()
 ```
-#### Step 2. Scrap data
+#### Step 2. Scrape data
 
-The main problem we meet when scraping data is each time after we scrap 20 pages of data, the “404 error” will appear. This is actually a very common issue people may encounter when webscraping, and it is because we have opened this website too frequently. A typical solution is to let program sleep (stop operating) for 3 minutes when “404” appear.
+The main problem we meet when scraping data is each time after we scrape 20 pages of data, the “404 error” will appear. This is actually a very common issue people may encounter when webscraping, and it is because we have opened this website too frequently. A typical solution is to let program sleep (stop operating) for 3 minutes when “404” appear.
 
 ![Picture showing scrap_404]({static}/images/AlphaMiner-Post01_scrap_404.png)
 
