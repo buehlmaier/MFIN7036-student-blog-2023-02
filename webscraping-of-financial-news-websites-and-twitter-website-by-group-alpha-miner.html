@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2023" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", Progress Report, " />
+
+<meta property="og:title" content="Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/webscraping-of-financial-news-websites-and-twitter-website-by-group-alpha-miner.html" />
+<meta property="og:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. 1. Selection of News Websites for Webscrapping There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
+<meta property="og:article:author" content="MFIN7036 Students 2023" />
+<meta property="og:article:published_time" content="2023-03-17T18:25:00+08:00" />
+<meta name="twitter:title" content="Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;) ">
+<meta name="twitter:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. 1. Selection of News Websites for Webscrapping There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of …">
+
+        <title>Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;)  · MFIN7036 Student Blog 2023
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2023 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/"><span class=site-name>MFIN7036 Student Blog 2023</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2023-02
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/webscraping-of-financial-news-websites-and-twitter-website-by-group-alpha-miner.html">
+                Webscraping of financial news websites and Twitter website (by Group "Alpha Miner")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "Alpha Miner"</p>
+<p>This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. </p>
+<h2>1. Selection of News Websites for Webscrapping</h2>
+<p>There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of them are suitable for web-scraping. So we try to investigate each website to find the best one.</p>
+<h3>1）Yahoo finance</h3>
+<p>We can easily find the financial news related to the company on <a href="https://finance.yahoo.com/">yahoo finance</a>. But we need to continuously scroll down to get news in earlier days. What’s more, the date is vague, so we can’t find the return data of a specific day.</p>
+<p><img alt="Picture showing yahoo finance website" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_yahoo_finance.png"></p>
+<h3>2）Benzinga</h3>
+<p><a href="https://www.benzinga.com/">Benzinga</a> is a free online news source that posts 50 to 60 articles daily on average, containing financial news about the world's financial markets as well as financial commentary and analysis. </p>
+<p><img alt="Picture showing Benzinga website" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Benzinga.png"></p>
+<p>Benzinga provides a full set of official APIs , among which we will opt for its <a href="https://www.benzinga.com/apis/cloud-product/free-stock-news-api/">free stock news API</a>. So we first register and get the token, we can obtain the news data by simply inputting the stock tickers of the thirty companies and the date range. However, the website only provides access to data for the past year. </p>
+<p><img alt="Picture showing Benzinga api" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Benzinga_api.png"></p>
+<h3>3）Barron's</h3>
+<p>Barron serves as a great resource for us to use selenium to download data. The url of <a href="https://www.barrons.com/search?query=Energy%20Industry&amp;isToggleOn=true&amp;operator=OR&amp;sort=date-desc&amp;duration=4y&amp;startDate=2019%2F02%2F27&amp;endDate=2023%2F02%2F27&amp;source=barrons%2Cbarronsblog%2Cbarronsvideos%2Cbarronswebstory%2Cbarronslivecoverage">Barron's</a> can show all the search parameters such as search theme, date range and page numbers. What’s more, the data is neatly arranged, so we can just use the xpath to find the data. It also provides us with access to news data for the past four years. </p>
+<p><img alt="Picture showing Barron's website" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Barron's.png"></p>
+<p>So we choose Bezinga and Barron as our data sources of financial news, and we are equipped with the necessary websracping skills to deal with both static and dynamic websites based on our the learnig of 9.2 Web Scraping. </p>
+<h2>2. Data Collection from selected news websites</h2>
+<h3>1）Benzinga</h3>
+<p>Collecting data from Benzinga is relatively straightforward, as the they published an <a href="https://docs.benzinga.io/benzinga/newsfeed-v2.html">official document</a> with detailed instructions, and package of <strong>request</strong> is sufficiently powerful to webscrap it. We just need to change the ticker to get relevant data. Then we collect the news date meet the date requirements.</p>
+<p><img alt="Picture showing Benzinga api document" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Benzinga_api_document.png"></p>
+<p>The key code snippet is attached below:</p>
+<div class="highlight"><pre><span></span><code><span class="n">params</span><span class="p">[</span><span class="s1">&#39;page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
+<span class="c1"># send a get request to the specified api url with the params dictionary and headers provided by Benzinga.</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
+<span class="c1"># use the xmltodict module to parse the XML content of the response into a dictionary.</span>
+<span class="n">xml_dict</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+<span class="c1"># extract the item list from the result dictionary in the xml_dict</span>
+<span class="n">newslist</span> <span class="o">=</span> <span class="n">xml_dict</span><span class="p">[</span><span class="s1">&#39;result&#39;</span><span class="p">][</span><span class="s1">&#39;item&#39;</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">news</span> <span class="ow">in</span> <span class="n">newslist</span><span class="p">:</span>
+    <span class="n">newstime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">news</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">],</span> \
+        <span class="s1">&#39;</span><span class="si">%a</span><span class="s1">, </span><span class="si">%d</span><span class="s1"> %b %Y %H:%M:%S %z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="c1"># find the data within our prespecified date range</span>
+        <span class="k">if</span> <span class="n">newstime</span> <span class="o">&lt;</span> <span class="n">start_date</span> <span class="o">|</span> <span class="n">newstime</span> <span class="o">&gt;</span> <span class="n">end_date</span><span class="p">:</span>
+            <span class="n">date_bool</span><span class="o">=</span><span class="kc">False</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span>
+</code></pre></div>
+
+<p>Here is an example output of the raw data we got from Benzinga.</p>
+<p><img alt="Picture showing Benzinga output" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Benzinga_output.png"></p>
+<h3>2）Barron's</h3>
+<p>For data collection on Barron's, we use the package of <strong>selenium</strong> to minimic real human's operations such as clicking and inputing keywords. There are basically three steps.</p>
+<h4>Step 1. Search for the relevant data</h4>
+<p>We first send the precificied stock ticker to the website and click on the search button. </p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">getRelevant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;search relevant data&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">inputBox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> \
+                    <span class="s1">&#39;BarronsTheme--barrons-search-input--3dKl-YZJ&#39;</span><span class="p">)</span>
+                <span class="n">inputBox</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">inputBox</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">except</span> <span class="n">StaleElementReferenceException</span><span class="p">:</span>
+                <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+                <span class="c1"># self.driver.refresh()</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">ActionChains</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="p">)</span>
+        <span class="n">action</span><span class="o">.</span><span class="n">move_by_offset</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">click</span><span class="p">()</span><span class="o">.</span><span class="n">perform</span><span class="p">()</span>
+        <span class="n">Search</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> \
+            <span class="s1">&#39;BarronsTheme--search-submit--3CYhQXSw&#39;</span><span class="p">)</span>
+        <span class="n">Search</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+</code></pre></div>
+
+<h4>Step 2. Scrap data</h4>
+<p>The main problem we meet when scraping data is each time after we scrap 20 pages of data, the “404 error” will appear. This is actually a very common issue people may encounter when webscraping, and it is because we have opened this website too frequently. A typical solution is to let program sleep (stop operating) for 3 minutes when “404” appear.</p>
+<p><img alt="Picture showing scrap_404" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_scrap_404.png"></p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">contents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">find_elements</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="s1">&#39;//article&#39;</span><span class="p">)</span>
+            <span class="c1"># waits 15 seconds and then refreshes the page if no result matching \</span>
+            <span class="c1"># the specified XPath expression &#39;//article&#39; is found. </span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">contents</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">contents</span><span class="p">:</span>
+                <span class="n">content</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="c1"># title</span>
+                <span class="n">content</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">XPATH</span><span class="p">,</span> <span class="s2">&quot;.//h4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="c1">#print(content[&#39;title&#39;])</span>
+                <span class="c1"># content</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">content</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> \
+                        <span class="s1">&#39;BarronsTheme--summary--3UHA7uDx&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+                    <span class="n">content</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="c1"># date</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">content</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">find_element</span><span class="p">(</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span> \
+                        <span class="s1">&#39;BarronsTheme--timestamp--1QcAFHpF&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+                <span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+                    <span class="n">content</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="n">StaleElementReferenceException</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;try to find element data&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TimeoutException</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Try reloading&#39;</span><span class="p">)</span>
+    <span class="c1"># wait 3 minutes when 404 error is returned</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">sleep</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+<span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+
+<h4>Step 3. Turn to the next page</h4>
+<p>We try turning to next page three times. If we fail, it means this is the last page and this function will end.</p>
+<div class="highlight"><pre><span></span><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1"># try three times</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="c1"># if still fails, this is already the last page</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">page</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">element_to_be_clickable</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">LINK_TEXT</span><span class="p">,</span> \
+                <span class="s1">&#39;NEXT PAGE&#39;</span><span class="p">)))</span>
+            <span class="n">js</span> <span class="o">=</span> <span class="s2">&quot;window.scrollTo(0, document.body.scrollHeight)&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="n">js</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">execute_script</span><span class="p">(</span><span class="s2">&quot;arguments[0].click();&quot;</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">except</span> <span class="n">StaleElementReferenceException</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;try to find element click&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TimeoutException</span><span class="p">:</span>
+            <span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Try reloading&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">NoSuchElementException</span><span class="p">:</span>
+    <span class="k">break</span>
+</code></pre></div>
+
+<p>Here is an example output of the raw data we got from Barron.</p>
+<p><img alt="Picture showing Barron output" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Picture 1.jpg"></p>
+<h2>3. Data mining on Twitter</h2>
+<p>The Twitter API is a set of programmatic tools that can be used to learn from and engage with the convention on Twitter.</p>
+<p><a href="https://developer.twitter.com/en/docs/twitter-api/tools-and-libraries">The Tools and Libraries link on Twitter Developer Platform</a></p>
+<h2>3.1 tweepy: for accessesing the official Twitter API.</h2>
+<p><a href="https://docs.tweepy.org/en/latest/getting_started.html">The Document of Tweepy</a></p>
+<h3>1) installation</h3>
+<p>The easiest way to install the latest version from PyPI is by using pip:</p>
+<div class="highlight"><pre><span></span><code>pip install tweepy
+</code></pre></div>
+
+<h3>2) OAuth</h3>
+<p>Twitter requires all requests to use OAuth for authentication.
+<a href="https://docs.tweepy.org/en/latest/authentication.html#authentication">The Document of Authentication</a></p>
+<p>Tweepy supports the OAuth 1.0a User Context, OAuth 2.0 Bearer Token (App-Only), and OAuth 2.0 Authorization Code Flow with PKCE (User Context) authentication methods.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">tweepy</span>
+<span class="c1">#initialize bearer token and </span>
+<span class="c1">#initialize api by bearer instance</span>
+<span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuth2BearerHandler</span><span class="p">(</span><span class="s2">&quot;Bearer Token here&quot;</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+</code></pre></div>
+
+<h3>3) tweepy.API</h3>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;api.twitter.com&#39;</span><span class="p">,</span> <span class="n">parser</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proxy</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">retry_count</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retry_delay</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">retry_errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">upload_host</span><span class="o">=</span><span class="s1">&#39;upload.twitter.com&#39;</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">wait_on_rate_limit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1">#instance</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>Parameters</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>auth</td>
+<td>The authentication handler to be used</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>The cache to query if a GET method is used</td>
+</tr>
+<tr>
+<td>host</td>
+<td>The general REST API host server URL</td>
+</tr>
+<tr>
+<td>parser</td>
+<td>The Parser instance to use for parsing the response from Twitter;</td>
+</tr>
+<tr>
+<td></td>
+<td>defaults to an instance of ModelParser</td>
+</tr>
+<tr>
+<td>proxy</td>
+<td>The full url to an HTTPS proxy to use for connecting to Twitter</td>
+</tr>
+<tr>
+<td>timeout</td>
+<td>The maximum amount of time to wait for a response from Twitter</td>
+</tr>
+<tr>
+<td>upload_host</td>
+<td>The URL of the upload server</td>
+</tr>
+</tbody>
+</table>
+<h3>4) Twitter API Method</h3>
+<h4>API.search_tweets</h4>
+<p>Returns a collection of relevant Tweets matching a specified query. Twitter’s standard search API only “searches against a sampling of recent Tweets published in the past 7 days.” If you’re specifying an ID range beyond the past 7 days or there are no results from the past 7 days, then no results will be returned.</p>
+<p><a href="https://developer.twitter.com/en/docs/twitter-api/v1/tweets/search/api-reference/get-search-tweets">Reference for search twitter</a></p>
+<table>
+<thead>
+<tr>
+<th>Twitter API v1.1 Endpoint</th>
+<th>API Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Search Tweets</td>
+<td></td>
+</tr>
+<tr>
+<td>GET search/tweets</td>
+<td>API.search_tweets()</td>
+</tr>
+</tbody>
+</table>
+<h2>3.2 Snscrape: for accessing the unofficial API.</h2>
+<p>Snscrape is a prevalent webscraping tool which is widely used to scrape content from popular social media sites including Facebook, Instagram, and others in addition to Twitter. Snscrape does not require Twitter credentials (API key) to access it. There's also no limit to the number of tweets you can fetch. Although snscrape does not support some sophiscated queries related to the extra features and granularity provided exclusively by Tweepy such as geolocations, we find it is sufficiently poweful and faster than Tweepy to complete our task of data collection from Twitter. </p>
+<h3>1) Installation</h3>
+<div class="highlight"><pre><span></span><code>pip3 install git+https://github.com/JustAnotherArchivist/snscrape.git
+</code></pre></div>
+
+<h3>2) Tweets retrieve</h3>
+<p>Although it is commonly suggested that the most straightforward way to use snscrape is through its command-line interface (CLI) commands which is well documented, our group find Python Wrapper more intuitive to use. On a related note, we also find some <a href="https://betterprogramming.pub/how-to-scrape-tweets-with-snscrape-90124ed006af">resources</a> with detailed instructions on how to use CLI with Python, which might be helpful for people who are not so comfortable with working directly in the terminal (like us) but still wish to make full use of the well developed CLI command documents.</p>
+<p>To retrieve tweets for a specific user, we can do the following:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">snscrape.modules.twitter</span> <span class="k">as</span> <span class="nn">sntwitter</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Created a list to append all tweet attributes(data)</span>
+<span class="n">attributes_container</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Using TwitterSearchScraper to scrape data and append tweets to list</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">tweet</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sntwitter</span><span class="o">.</span><span class="n">TwitterSearchScraper</span><span class="p">(</span><span class="s1">&#39;from:specified_username&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_items</span><span class="p">()):</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">&gt;</span><span class="mi">100</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="n">attributes_container</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tweet</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">tweet</span><span class="o">.</span><span class="n">likeCount</span><span class="p">,</span> <span class="n">tweet</span><span class="o">.</span><span class="n">sourceLabel</span><span class="p">,</span> <span class="n">tweet</span><span class="o">.</span><span class="n">content</span><span class="p">])</span>
+
+<span class="c1"># Creating a dataframe from the tweets list above </span>
+<span class="n">tweets_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">attributes_container</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Date Created&quot;</span><span class="p">,</span> <span class="s2">&quot;Number of Likes&quot;</span><span class="p">,</span> <span class="s2">&quot;Source of Tweet&quot;</span><span class="p">,</span> <span class="s2">&quot;Tweets&quot;</span><span class="p">])</span>
+</code></pre></div>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2023-03-17T18:25:00+08:00">Fri 17 March 2023</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#progress-report-ref">Progress Report</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2023-02" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
