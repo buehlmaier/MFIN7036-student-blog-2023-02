@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/elegant.prod.9e9d5ce754.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/css/custom.css" media="screen">
+
+        <link rel="dns-prefetch" href="//fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+
+        <meta name="author" content="MFIN7036 Students 2023" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", Progress Report, " />
+
+<meta property="og:title" content="Predict FR Speech&#39;s Sentiment Score Using RNN (by Group &#34;Citadel2&#34;) "/>
+<meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/predict-fr-speechs-sentiment-score-using-rnn-by-group-citadel2.html" />
+<meta property="og:description" content="By Group &#34;Citadel2&#34; Introduction After having obtained and processed the raw data, we now need to set up the models required for analysing the speeches and price data. To do so, model training with cleaned training data is necessary. Let&#39;s take a look at our process below. Data Cleaning of …" />
+<meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
+<meta property="og:article:author" content="MFIN7036 Students 2023" />
+<meta property="og:article:published_time" content="2023-03-17T15:55:00+08:00" />
+<meta name="twitter:title" content="Predict FR Speech&#39;s Sentiment Score Using RNN (by Group &#34;Citadel2&#34;) ">
+<meta name="twitter:description" content="By Group &#34;Citadel2&#34; Introduction After having obtained and processed the raw data, we now need to set up the models required for analysing the speeches and price data. To do so, model training with cleaned training data is necessary. Let&#39;s take a look at our process below. Data Cleaning of …">
+
+        <title>Predict FR Speech&#39;s Sentiment Score Using RNN (by Group &#34;Citadel2&#34;)  · MFIN7036 Student Blog 2023
+</title>
+        <link href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="MFIN7036 Student Blog 2023 - Full Atom Feed" />
+
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/"><span class=site-name>MFIN7036 Student Blog 2023</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://buehlmaier.github.io/MFIN7036-student-blog-2023-02
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html">Categories</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/tags.html">Tags</a></li>
+                                <li ><a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/predict-fr-speechs-sentiment-score-using-rnn-by-group-citadel2.html">
+                Predict FR Speech's Sentiment Score Using RNN (by Group "Citadel2")
+            </a>
+        </h1>
+    </header>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>By Group "Citadel2"</p>
+<h2>Introduction</h2>
+<p>After having obtained and processed the raw data, we now need to set up the models required for analysing the speeches and price data. To do so, model training with cleaned training data is necessary. Let's take a look at our process below. </p>
+<h2>Data Cleaning of Training Set</h2>
+<p>First, we define a couple of functions to clean the training set, FiQA and Financialphrase bank. </p>
+<p>The original data looks like: <br></p>
+<p><img alt="train data" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post02_train dataset.png"></p>
+<p>We convert words <code>(‘positive’, ‘negative’, ‘neutral’)</code> into numbers <code>(1, -1, 0)</code>, and then convert numbers into vectors <code>([1, 0, 0], [0, 0, 1], [0, 1, 0])</code>. By using the word-vector representations, we directly apply suitable machine learning algorithms to solve the problems that we have at hand, like sentiment analysis.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">clean_sentiment</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;positive&#39;</span> <span class="ow">or</span> <span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;pos&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+    <span class="k">elif</span> <span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;negative&#39;</span> <span class="ow">or</span> <span class="n">text</span> <span class="o">==</span> <span class="s1">&#39;neg&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+<span class="k">def</span> <span class="nf">soft</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">text</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p>There is a lot of useless information containing features that result in noise for sentiment analysis, such as hyperlinks, new line characters, mentions, hashtags and more, so we also remove them.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="c1"># Remove links</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;http://\S+|https://\S+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;http[s]?://\S+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;http\S+&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Convert HTML references</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&amp;amp&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&amp;lt&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&amp;gt&#39;</span><span class="p">,</span> <span class="s1">&#39;&gt;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\xa0</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Remove new line characters</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;[</span><span class="se">\r\n</span><span class="s1">]+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Remove mentions</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;@\w+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Remove hashtags</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;#\w+&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="c1"># Remove multiple space characters</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b(&#39;</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;|&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">STOPWORDS</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s1">&#39;)\b\s*&#39;</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">pattern</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+    <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">text</span>
+</code></pre></div>
+
+<p>Besides, the contractions package can restore common English abbreviations and slangs, and is efficient in handling edge cases, such as missing apostrophes. Therefore, we use contractions to reduce dimensionality and further filter stopwords.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">expand_contractions</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">contractions</span><span class="o">.</span><span class="n">fix</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+</code></pre></div>
+
+<p>Next, we split up the text into smaller parts by using the function <code>get_tokenizer()</code> and convert 1D to 2D.</p>
+<p>Finally, we load the word vectors and call all the defined functions.</p>
+<div class="highlight"><pre><span></span><code><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">get_tokenizer</span><span class="p">(</span><span class="s1">&#39;basic_english&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">text_transform</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span> <span class="n">maxSeqLength</span><span class="p">):</span>
+    <span class="n">sentence_vector</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">sentence</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sentence_vector</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wordsList</span><span class="p">[</span><span class="n">token</span><span class="p">])</span>
+        <span class="k">except</span><span class="p">:</span>  <span class="c1"># exclude non english sentence and not recognized word （gibberish)</span>
+            <span class="n">sentence_vector</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_vector</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">maxSeqLength</span><span class="p">:</span>
+        <span class="n">sentence_vector</span> <span class="o">=</span> <span class="n">sentence_vector</span><span class="p">[:</span><span class="n">maxSeqLength</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_vector</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">maxSeqLength</span><span class="p">:</span>
+        <span class="n">sentence_vector</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">maxSeqLength</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">sentence_vector</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;int64&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">sentence_vector</span>
+</code></pre></div>
+
+<h2>RNN model</h2>
+<p>In our example, we split 80% of the training set for training and the other 20% of the data is used for validation. </p>
+<p>Now that we have the processed, cleaned text, we apply pretrained embeddings in conjunction with the RNN model for sentiment analysis to obtain the subjectivity and polarity of sentences.</p>
+<p>Compared with self-training embeddings, pretrained embeddings can reduce the number of parameters to train, hence reducing the training time. Since pretrained embeddings have previously been trained on a vast corpus of text, they can capture both the connotative and grammatical meanings of a word, as well as reduce overfitting of the RNN model. <code>nn.Embeddings</code> is then used to create a 2d matrix. By using RNN, we encode the similarity and dissimilarity between words, and can access vector elements by index. We also use <code>max_seq_length</code>, which specifies the maximum number of tokens of the input.</p>
+<p>In the following RNN class, while each token of a text sequence gets its individual pretrained representation via the embedding layer (<code>self.embedding</code>), the entire sequence is encoded by a RNN (<code>self.rnn</code>). More concretely, the hidden states (at the last layer) of the RNN at both the initial and final time steps are concatenated as the representation of the text sequence.</p>
+<p>We also adopted layer normalization, which applies per-element scale and bias with <code>elementwise_affine</code>, to enable smoother gradients and faster training.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RNN</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="c1">#   pretrained embedding</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wordVectors</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">,</span> <span class="n">maxseqlength</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">wordVectors</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span><span class="n">embedding_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">)</span>  <span class="c1"># similar to one hidden layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">maxseqlength</span> <span class="o">*</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxseqlength</span> <span class="o">=</span> <span class="n">maxseqlength</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ln</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">([</span><span class="n">maxseqlength</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="p">],</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">,</span> <span class="n">elementwise_affine</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Let’s construct a RNN by using Kaiming Initialization, which considers the non-linearity of activation functions, to represent single text for sentiment analysis. The fully connected layer is used to calculate the sentiment stored in the hidden layer and to sum up the sentiment of the entire sentence.</p>
+<div class="highlight"><pre><span></span><code>        <span class="k">def</span> <span class="nf">_weights_init</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; kaiming init (https://arxiv.org/abs/1502.01852v1)&quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">_weights_init</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="c1"># text = [batch size, sent len]</span>
+        <span class="n">embedded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># embedded = [batch size, sent len, emb dim]</span>
+        <span class="n">embedded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln</span><span class="p">(</span><span class="n">embedded</span><span class="p">)</span>
+        <span class="n">out</span><span class="p">,</span> <span class="n">hidden</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">embedded</span><span class="p">)</span> <span class="c1"># output = [batch size, sent len, hid dim] # hidden = [1, sent len, hid dim]</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxseqlength</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="c1"># output = [batch size, output size]</span>
+        <span class="k">return</span> <span class="n">out</span>
+</code></pre></div>
+
+<p>Now we can summarize the article, by removing stop words, then calculating the relative frequencies of each word, and finally rank each sentence by its relative importance.</p>
+<h2>Training Process</h2>
+<p>We define the <code>train_model()</code> function for training and evaluating the model.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+    <span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">checkpoint_dir</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">)</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">betas</span><span class="o">=</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.999</span><span class="p">),</span> <span class="n">weight_decay</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">weight_decay</span><span class="p">,</span>
+                                  <span class="n">lr</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">)</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">LambdaLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">epoch</span><span class="p">:</span> <span class="mf">0.99</span> <span class="o">**</span> <span class="n">epoch</span><span class="p">)</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span> <span class="c1">#  nn.BCELoss(reduction=&#39;mean&#39;)</span>
+</code></pre></div>
+
+<p>We need to pass the entire dataset multiple times through the same RNN as we are using a limited dataset and gradient descent, which is an iterative process. Therefore, we start by looping through the number of epochs, and the number of iterations in each epoch is set according to the batch size that we defined. We pass the text to the model and get the predictions from it. In this way, sentences are assigned scores for positive, neutral and negative sentiments.  Finally, we calculate the loss for each iteration (the discrepancy between the true and our predicted sentiment) to get the average loss.</p>
+<div class="highlight"><pre><span></span><code>    <span class="c1"># load optimizer and epoch</span>
+    <span class="n">start_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">load_pretrain</span><span class="p">:</span>
+        <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s1">&#39;model_epoch_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">which_checkpoint</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.pth&#39;</span><span class="p">))</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;optimizer&#39;</span><span class="p">])</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;scheduler&#39;</span><span class="p">])</span>
+        <span class="n">start_epoch</span> <span class="o">=</span> <span class="n">checkpoint</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_epoch</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="n">progress_bar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">tqdm</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="n">progress_bar</span><span class="p">:</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">float</span><span class="p">())</span>  <span class="c1"># float prevent tensor type difference</span>
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> 
+            <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="n">avg_loss</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># every 5 batch</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Epoch [</span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">], Iter [</span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">] Loss: </span><span class="si">%.4f</span><span class="s1">, average_loss: </span><span class="si">%.4f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">.</span><span class="n">num_epochs</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span><span class="n">loss</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">avg_loss</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">scheduler</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Next, we want to validate our model performance during training by using the validation set. We then save the sentiment analysis model that has the best validation loss and the best accuracy, as well as each loop and loss.</p>
+<h2>Prediction Process</h2>
+<p>Since the model is created and data is trained and evaluated, we make a prediction by using <code>predict()</code> function, which is more efficient when it comes to large arrays of data.</p>
+<p><code>senquence_length</code> is an important variable to set, we first draw a histogram to decide which number to choose: <br></p>
+<p><img alt="sequence_length" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post02_sequence_length.png"></p>
+<p>Then we use the following predict function to gain sentiment scores:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+    <span class="n">test_path</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_path</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">test_path</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Sentences_c&#39;</span><span class="p">:</span><span class="s1">&#39;sentence&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">expand_contractions</span><span class="p">)</span>
+    <span class="n">raw_sentence</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">sentence</span><span class="p">:</span> <span class="n">text_transform</span><span class="p">(</span><span class="n">sentence</span><span class="p">,</span>\
+             <span class="n">maxSeqLength</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">maxSeqLength</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;PREDICTING...&#39;</span><span class="p">)</span>
+
+    <span class="n">pred_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># same as batch input (batch_size, sequence_length)</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="c1"># 2d tensor</span>
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  
+            <span class="n">y_pred</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">y_pred</span><span class="p">)</span> <span class="c1"># 1d tensor</span>
+            <span class="n">pred_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_pred</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span> <span class="c1"># pred_list: 2d list</span>
+
+    <span class="n">pred_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">pred_list</span><span class="p">)</span> <span class="c1"># pred_matrix [samples, 3] 3: [posive, neutral, negative]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;positive sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_matrix</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;negative sentiment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pred_matrix</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentence&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">raw_sentence</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">result_dir</span><span class="p">,</span> <span class="s1">&#39;sentiment_result.csv&#39;</span><span class="p">))</span>
+</code></pre></div>
+
+<p>To achieve this goal, we first create an <code>ArgumentParser()</code> object, then call the <code>add_argument()</code> method to add parameters, which have all been defined in the training process. And lastly, we use <code>parse_args()</code> to parse the added arguments.</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="c1"># model settings</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--EMBEDDING_DIM&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># wordVectors.shape[1] = 50</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--HIDDEN_DIM&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--OUTPUT_DIM&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># -1, 0, 1</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--NUM_LAYERS&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--maxSeqLength&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">81</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> <span class="c1"># from the train_sentiment.py: np.median(sequence_length)</span>
+    <span class="c1"># files path</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--test_path&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;project/dataset/test/sentiment.parquet&#39;</span><span class="p">,</span>
+                        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--checkpoint_dir&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;project/checkpoints&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;output directory&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--lexicon_dir&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;project&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--result_dir&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;project/result&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+</code></pre></div>
+
+<p>Next, we instantiate RNN model with relevant parameters and finally get to test our model to see what kind of output we will get.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">result_dir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">result_dir</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">result_dir</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">result_dir</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">RNN</span><span class="p">(</span><span class="n">wordVectors</span><span class="o">=</span><span class="n">wordVectors</span><span class="p">,</span> <span class="n">embedding_dim</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">EMBEDDING_DIM</span><span class="p">,</span><span class="n">hidden_dim</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">HIDDEN_DIM</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">NUM_LAYERS</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">OUTPUT_DIM</span><span class="p">,</span>\
+        <span class="n">maxseqlength</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">maxSeqLength</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;LOADING MODEL...&#39;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">checkpoint_dir</span><span class="p">,</span> <span class="s1">&#39;model_best.pth&#39;</span><span class="p">))[</span><span class="s1">&#39;model&#39;</span><span class="p">])</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="n">predict</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Luckily, the results returned are encouraging and we plot them as follows: <br></p>
+<p><img alt="Loss over Epoch" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post02_accuracy.png"></p>
+<p><img alt="Accuracy over Epoch" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/Citadel2-Post02_loss.png"></p>
+<h2>Next Steps</h2>
+<p>Now that we have the tools for analysing the speeches, we can use the results to generate actionable insights for trading cryptocurrencies. </p>
+
+
+             
+ 
+            
+            
+            
+
+
+
+
+
+
+
+            <hr/>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2023-03-17T15:55:00+08:00">Fri 17 March 2023</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/categories.html#progress-report-ref">Progress Report</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://github.com/buehlmaier/MFIN7036-student-blog-2023-02" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe.
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides.
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/theme/js/elegant.prod.9e9d5ce754.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
