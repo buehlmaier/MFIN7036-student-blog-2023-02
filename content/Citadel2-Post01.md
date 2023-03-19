@@ -1,27 +1,36 @@
-﻿---
+---
 Title: Road to Fed-Watching for Crypto (by Group "Citadel2")
-Date: 2023-03-08 01:12
+Date: 2023-03-08 13:15
 Category: Progress Report
 ---
 
-By Group Citadel2
+By Group "Citadel2"
 
 ## Introduction
 In this group project, we set out to analyse the effects of Fed speeches on cryptocurrency returns with natural language processing (NLP) techniques. Given this aim, it is all but necessary to 1) collect data in a timely and accurate manner, and 2) process and analyse the data such that we can generate actionable insight with economic value. In this blog, we aim to shed some light on our process, as well as some of the challenges we faced.  
 
 ## Data Collection
 After each speech, their transcripts are uploaded to the [Federal Reserve website](https://www.federalreserve.gov/newsevents/speeches.htm). 
-This allows us to use the following script to scrape the website and download the speeches: 
+This allows us to use the following script to scrape the website and download the speeches: <br>
+
+![Loss over Epoch]({static}/images/Citadel2-Post01_FR speech website.png)
+
+Then we define a function to scrape these speech texts, mainly using Chrome webdriver from Selenium.
+To scrape all speeches and store into one dataframe, we first get URLs of these speeches by using find_element function in Selenium from the whole page and then locate the "Next" button to turn to next page. We used newspaper3k to get speech content and BeautifulSoup to get article time.
+
+Here's an example using DEV tool to find the URL's XPATH:
+
+![Find XPath of URL]({static}/images/Citadel2-Post01_Xpath.png)
+
+The following is our scrape function:
 ```python
-def scrap_FR_speech(): 
-    # scrap multiple FR speech text data 
+def scrape_FR_speech(): 
+    # scrape multiple FR speech text data 
     driver = webdriver.Chrome() 
     # Navigate to a webpage with pagination links 
     driver.get("https://www.federalreserve.gov/newsevents/speeches.htm") 
     url=[] 
-    key_words = [] 
     FR_speech = pd.DataFrame()  
-
     for page in range(1,24): 
         if page == 24: 
             passage_num = 13 
@@ -29,15 +38,13 @@ def scrap_FR_speech():
             passage_num = 21    
      
         for x in range(1,passage_num): 
-            url= driver.find_element(By.XPATH,'//*[@id="article"]/div[1]/div['+str(x)+']/div[2]/p[1]/em/a').get_attribute('href') 
-            
-            # article text & keywords 
+	    XPath='//*[@id="article"]/div[1]/div['+str(x)+']/div[2]/p[1]/em/a'
+            url= driver.find_element(By.XPATH, XPath).get_attribute('href') 
+          
             article = Article(url) 
             article.download() 
             article.parse() 
             t = article.text 
-            # article.nlp() 
-            # k = article.keywords 
             df = pd.DataFrame([t], columns=['minutes'] ) 
             df['url'] = url 
 
@@ -52,24 +59,16 @@ def scrap_FR_speech():
             df['article_time'] = article_time 
             FR_speech= FR_speech.append(df) 
 
-            # key_words.append(k) 
         driver.find_element(By.LINK_TEXT,"Next").click() 
 
     return FR_speech         
-
-FR_speech = scrap_FR_speech() 
-FR_speech.to_parquet('FR_speech.parquet') 
 ```
 
 ##  Data Processing
 For our purposes, speeches by Federal Reserve officials are a great source of text data, as they contain no gibberish, and the formal language allows for easy data augmentation – thus minimal cleaning is needed (compared to, for example, social media posts, which often contain abbreviations, emojis, slangs and/or colloquial language). However, we still need to inspect and clean the data – in case the downloaded text differs from that of the actual speech due to unexpected issues during web-scraping. 
 
-We first used the following code to drop references in the speech text. 
+We first used the following code to drop references in the speech text:
 ```python
-FR_speech = pd.read_parquet('/Users/lancelotpan/Desktop/Module 4/NLP/Mfin 7036 group project/FR_speech.parquet') 
-FR_speech = FR_speech.reset_index(drop=True) 
-FR_speech['minutes_cleaned'] = pd.Series() 
-
 # Drop reference in speech text 
 for count, item in enumerate(FR_speech['minutes']): 
    lst = item.split('\n') 
@@ -88,41 +87,37 @@ for count, item in enumerate(FR_speech['minutes']):
    FR_speech['minutes_cleaned'][count] = item 
 ```
 
-We then applied a custom function to the text, which removes useless characters, and converts all letters to lowercase. 
+We then removed useless characters, and converted all letters to lowercase:
 ```python
-# Drop useless characters and convert all words to lowercase 
+
 def pre_process(text): 
 
     # Remove links 
     text = re.sub('http://\S+|https://\S+', '', text) 
     text = re.sub('http[s]?://\S+', '', text) 
     text = re.sub(r"http\S+", "", text) 
-
-    # remove the reference numbers  
+   # remove the reference numbers  
     text = re.sub(r'.\d+', '.', text)  
-
-    # Remove multiple space characters 
+   # Remove multiple space characters 
     text = re.sub('\s+',' ', text) 
-
-    # Convert to lowercase 
+   # Convert to lowercase 
     text = text.lower() 
+   return text 
 
-    return text 
-
-FR_speech['minutes_cleaned'] = FR_speech['minutes_cleaned'].apply(pre_process) 
 ```
 
-Now we can summarize the article, by removing stop words, then calculating the relative frequencies of each word, and finally rank each sentence by its relative importance.
+Now we can summarize the article, by removing stop words, then calculating the relative frequencies of each word, and finally rank each sentence by its relative importance:
 ```python
 # Summarized the article (remove insignificant sentences) 
+
 def sum_article(text): 
     from spacy.lang.en.stop_words import STOP_WORDS  
     from sklearn.feature_extraction.text import CountVectorizer  
     import en_core_web_sm 
     nlp = en_core_web_sm.load() 
-    doc = nlp(text) 
-
-    # remove create a dictionary of words and their respective frequencies  
+    doc = nlp(text)
+ 
+   # remove create a dictionary of words and their respective frequencies  
     corpus = [sent.text.lower() for sent in doc.sents ] 
     cv = CountVectorizer(stop_words=list(STOP_WORDS))    
     cv_fit=cv.fit_transform(corpus)     
@@ -148,7 +143,6 @@ def sum_article(text):
                     sentence_rank[sent]+=word_frequency[word.text.lower()] 
                 else: 
                     sentence_rank[sent]=word_frequency[word.text.lower()] 
-
     top_sentences=(sorted(sentence_rank.values())[::-1]) 
     top_sent=top_sentences[:10] 
 
@@ -163,14 +157,7 @@ def sum_article(text):
         else: 
             continue 
     return ' '.join(summary) 
-
-summary0 = sum_article(FR_speech['minutes_cleaned'][0]) 
-
-FR_speech['summarized_article'] = pd.Series() 
-
-for count, item in enumerate(FR_speech['minutes_cleaned']): 
-    FR_speech['summarized_article'][count] = sum_article(item) 
-    print(FR_speech['summarized_article'][count])      
+    
 ```
 
 Next, we split the passage into sentences using the NLTK sentence tokenizer, then finally removing outliers and errors before putting the data through the natural language processing model.
@@ -182,27 +169,20 @@ FR_speech['Sentences'] = FR_speech['summarized_article'].apply(tokenizer.tokeniz
 # Explode sentences into separate rows, keeping other data 
 FR_speech = FR_speech.explode('Sentences').reset_index(drop=True) 
 
-print(FR_speech['Sentences']) 
-
 # Drop the outliers 
 
 FR_speech['Sentences_length'] = pd.Series() 
 for count, item in enumerate(FR_speech['Sentences']): 
     FR_speech['Sentences_length'][count] = len(item) 
-FR_speech['Sentences_c'] = FR_speech[ FR_speech['Sentences_length']>= 63 ]['Sentences'] 
+FR_speech['Sentences_c'] = FR_speech[ FR_speech['Sentences_length']>= len ]['Sentences'] 
 FR_speech = FR_speech.dropna() 
 ```
-As we are investigating the effects of Fed speeches on cryptocurrency prices, it is imperative to obtain accurate price data. For this project, we use the Yahoo! Finance API.  For the purposes of this project, the data provided by Yahoo! Finance has multiple benefits – there is complete OHLC price data at daily intervals, the data is easy to obtain via Python (with a specific purpose-built package), and it is available for public use at no cost. Here, we request for USD denominated Bitcoin prices (‘BTC-USD’)  between Sep 2014 and Feb 2023 from the Yahoo! Finance API via the yfinance package:
 
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import yfinance as yf
+Here's top 20 bigrams from cleaned speech text: <br>
 
-# get Bitcoin trading data from Yahoo Finance
-btc = yf.download('BTC-USD', start='2014-09-17', end='2023-02-28')
-```
+![Top 20 bigrams]({static}/images/Citadel2-Post01_Top 20 bigrams.png)
+
+
 
 ## Model Evaluation
 For the model evaluation part, our initial idea was to directly link sentiment to price direction, but it would not be precise enough since other factors could affect it, so a two-model approach was selected in our project. The first step is to establish a model to determine the sentiment score, then use sentiment score and other factors to determine bitcoin price fluctuations. We changed our approach several times for the first model. 
@@ -220,6 +200,7 @@ def clean_sentiment(text):
 ```
 
 After that, we used the VADER code to generate sentiments from the text. 
+
 ```python
 def VADER_polarize_by_max(text):
     scores = sid.polarity_scores(text)
@@ -246,6 +227,11 @@ def TextBlob_polarize_by_compound(text):
         return 0
 ```
 
+Here's the result using VADER: <br>
+
+![Vader_result]({static}/images/Citadel2-Post01_Vader_result.png)
+
+
 Unfortunately, the accuracy rate was only 53%, which is too low. 
 
 In this case, we believe that the low accuracy rate can be explained by the nature of the VADER model. VADER is a rule-based sentiment analysis model without explicitly coding it. For example, the score would be '+1' if the sentence has hawkish keywords and more positive than negative terms, and '-1' if the sentence conveys a dovish sentiment. This method can also be described as lexicon-based, where a sentiment score heavily relies on the polarity and intensity of the sentiment of a single word. All of this means that the VADER model ignores the contextual information as the BoW and TF-IDF. 
@@ -255,5 +241,4 @@ We also considered unsupervised machine learning. However, its input data is not
 Therefore, after taking into account the pros and cons of each method, we decided to use supervised machine learning with different training sets (FiQA and FinancialPhraseBank). While this method has one limitation - in that these training sets are not entirely based on bitcoin, we can improve the accuracy by tuning and refining some parameters by ourselves, such as dropout, leaning rate, and weight decay. 
 
 ## Next Steps 
-After collecting and processing the Fed speech text data and the Bitcoin price data, as well as evaluating different methods for sentiment analysis, our next steps would be to put everything together and find insights on how Fed speeches factor into cryptocurrency returns.
-
+After collecting and processing the Fed speech text data and the Bitcoin price data, as well as evaluating different methods for sentiment analysis, our next steps would be to put everything together and find insights on how Fed speeches factor into cryptocurrency returns. See more details in our [next blog](https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/predict-fr-speechs-sentiment-score-using-rnn-by-group-citadel2.html).
