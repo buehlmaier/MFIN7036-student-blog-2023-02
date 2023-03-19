@@ -19,12 +19,12 @@
 
 <meta property="og:title" content="Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;) "/>
 <meta property="og:url" content="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/webscraping-of-financial-news-websites-and-twitter-website-by-group-alpha-miner.html" />
-<meta property="og:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. 1. Selection of News Websites for Webscrapping There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of …" />
+<meta property="og:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. All content regarding webscraping is only for academic demonstration purposes, and we respect the download policies. 1. Selection of News Websites for Webscraping There …" />
 <meta property="og:site_name" content="MFIN7036 Student Blog 2023" />
 <meta property="og:article:author" content="MFIN7036 Students 2023" />
 <meta property="og:article:published_time" content="2023-03-17T18:25:00+08:00" />
 <meta name="twitter:title" content="Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;) ">
-<meta name="twitter:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. 1. Selection of News Websites for Webscrapping There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of …">
+<meta name="twitter:description" content="By Group &#34;Alpha Miner&#34; This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. All content regarding webscraping is only for academic demonstration purposes, and we respect the download policies. 1. Selection of News Websites for Webscraping There …">
 
         <title>Webscraping of financial news websites and Twitter website (by Group &#34;Alpha Miner&#34;)  · MFIN7036 Student Blog 2023
 </title>
@@ -79,8 +79,8 @@
         <div class="span8 offset2 article-content">
             
             <p>By Group "Alpha Miner"</p>
-<p>This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. </p>
-<h2>1. Selection of News Websites for Webscrapping</h2>
+<p>This blog post documents our textual data collection from financial news websites and Twitter website in order to analyze the market sentiment. All content regarding webscraping is only for academic demonstration purposes, and we respect the download policies.</p>
+<h2>1. Selection of News Websites for Webscraping</h2>
 <p>There are many financial news websites such as Yahoo finance, Bezinga, and Barron, but not all of them are suitable for web-scraping. So we try to investigate each website to find the best one.</p>
 <h3>1）Yahoo finance</h3>
 <p>We can easily find the financial news related to the company on <a href="https://finance.yahoo.com/">yahoo finance</a>. But we need to continuously scroll down to get news in earlier days. What’s more, the date is vague, so we can’t find the return data of a specific day.</p>
@@ -93,10 +93,10 @@
 <h3>3）Barron's</h3>
 <p>Barron serves as a great resource for us to use selenium to download data. The url of <a href="https://www.barrons.com/search?query=Energy%20Industry&amp;isToggleOn=true&amp;operator=OR&amp;sort=date-desc&amp;duration=4y&amp;startDate=2019%2F02%2F27&amp;endDate=2023%2F02%2F27&amp;source=barrons%2Cbarronsblog%2Cbarronsvideos%2Cbarronswebstory%2Cbarronslivecoverage">Barron's</a> can show all the search parameters such as search theme, date range and page numbers. What’s more, the data is neatly arranged, so we can just use the xpath to find the data. It also provides us with access to news data for the past four years. </p>
 <p><img alt="Picture showing Barron's website" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Barron's.png"></p>
-<p>So we choose Bezinga and Barron as our data sources of financial news, and we are equipped with the necessary websracping skills to deal with both static and dynamic websites based on our the learnig of 9.2 Web Scraping. </p>
+<p>So we choose Bezinga and Barron as our data sources of financial news, and we are equipped with the necessary webscraping skills to deal with both static and dynamic websites based on our the learnig of 9.2 Web Scraping. </p>
 <h2>2. Data Collection from selected news websites</h2>
 <h3>1）Benzinga</h3>
-<p>Collecting data from Benzinga is relatively straightforward, as the they published an <a href="https://docs.benzinga.io/benzinga/newsfeed-v2.html">official document</a> with detailed instructions, and package of <strong>request</strong> is sufficiently powerful to webscrap it. We just need to change the ticker to get relevant data. Then we collect the news date meet the date requirements.</p>
+<p>Collecting data from Benzinga is relatively straightforward, as the they published an <a href="https://docs.benzinga.io/benzinga/newsfeed-v2.html">official document</a> with detailed instructions, and package of <strong>request</strong> is sufficiently powerful to webscrape it. We just need to change the ticker to get relevant data. Then we collect the news date meet the date requirements.</p>
 <p><img alt="Picture showing Benzinga api document" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_Benzinga_api_document.png"></p>
 <p>The key code snippet is attached below:</p>
 <div class="highlight"><pre><span></span><code><span class="n">params</span><span class="p">[</span><span class="s1">&#39;page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">)</span>
@@ -143,8 +143,8 @@
         <span class="n">Search</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
 </code></pre></div>
 
-<h4>Step 2. Scrap data</h4>
-<p>The main problem we meet when scraping data is each time after we scrap 20 pages of data, the “404 error” will appear. This is actually a very common issue people may encounter when webscraping, and it is because we have opened this website too frequently. A typical solution is to let program sleep (stop operating) for 3 minutes when “404” appear.</p>
+<h4>Step 2. Scrape data</h4>
+<p>The main problem we meet when scraping data is each time after we scrape 20 pages of data, the “404 error” will appear. This is actually a very common issue people may encounter when webscraping, and it is because we have opened this website too frequently. A typical solution is to let program sleep (stop operating) for 3 minutes when “404” appear.</p>
 <p><img alt="Picture showing scrap_404" src="https://buehlmaier.github.io/MFIN7036-student-blog-2023-02/images/AlphaMiner-Post01_scrap_404.png"></p>
 <div class="highlight"><pre><span></span><code><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
